@@ -12,25 +12,24 @@
      try{
          let userFound = await User.findById(req.params.id)
          const product = await Product.findById(req.body.productId)
-
+         let productUpdate = [];
          if(userFound){
-            let filterData =  product.isLike.filter((id)=>{
-                return  id === req.params.id
-             })
+             let filterData =  product.isLike.filter( (id)=> id === req.params.id )
+             console.log("filter" ,filterData)
              if (filterData.length === 0){
                  userFound.products.push(product)
-                 product.isLike.push(req.params.id)
+                 product?.isLike.push(req.params.id)
 
                  let userUpdate = await User.findByIdAndUpdate( req.params.id,
                      {products : userFound.products},
                      {new : true}
                  )
-                 let productUpdate = await Product.findByIdAndUpdate( req.body.productId,
+                 productUpdate = await Product.findByIdAndUpdate( req.body.productId,
                      {isLike : product.isLike},
                      {new : true}
                  )
              } else {
-                  let productUpdate = []
+                 productUpdate = []
              }
          }
          res.status(200).send(productUpdate)
