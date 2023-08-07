@@ -125,6 +125,7 @@
  router.get("/", isAdmin, async(req, res)=>{
   try{
       const users = await User.find().sort({_id : -1});
+      console.log("get user ", users)
       res.status(200).send(users)
   }catch(err){
      res.status(500).send(err)
